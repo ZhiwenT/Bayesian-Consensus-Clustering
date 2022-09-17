@@ -1,8 +1,18 @@
+---
+title: "README"
+output:
+  md_document:
+    variant: markdown_github
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
 # Bayesian-Consensus-Clustering
 
 Results from exmaple
-
-``` r
+```{r, eval=F}
 > fit.BCC$summary.stat$PPI
                   [,1]        [,2]
 mean        0.79474912  0.20525088
