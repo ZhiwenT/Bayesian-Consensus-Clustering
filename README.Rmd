@@ -262,12 +262,12 @@ plot_grid(gp1,gp2, gp3,labels=c("(A)", "(B)", "(C)"), nrow = 1,   align = "v" )
 library(knitr)
 library(kableExtra)
 fit.BCC <- readRDS(file = "graphic output/BCC.rds")
-knitr::kable(fit.BCC$summary.stat$PPI, caption = "PPI")
-knitr::kable(fit.BCC$summary.stat$ALPHA, caption = "ALPHA")
-GA <- knitr::kable(fit.BCC$summary.stat$GA, caption = "GA") #fixed effect coefficients
-add_header_above(GA, c("first marker (lbili)" = 1, "second marker (lsgot)" = 1, "third marker (spider)" = 1))
-knitr::kable(fit.BCC$summary.stat$SIGMA.SQ.U, caption = "SIGMA.SQ.U")
-knitr::kable(fit.BCC$summary.stat$SIGMA.SQ.E, caption = "SIGMA.SQ.E")
+knitr::kable(fit.BCC$summary.stat$PPI, caption = "PPI", format = "markdown")
+knitr::kable(fit.BCC$summary.stat$ALPHA, caption = "ALPHA", format = "markdown")
+GA <- knitr::kable(fit.BCC$summary.stat$GA, caption = "GA", format = "markdown") #fixed effect coefficients
+add_header_above(GA, c("first marker (lbili)" = 1, "second marker (lsgot)" = 1, "third marker (spider)" = 1), "latex")
+knitr::kable(fit.BCC$summary.stat$SIGMA.SQ.U, caption = "SIGMA.SQ.U", format = "markdown")
+knitr::kable(fit.BCC$summary.stat$SIGMA.SQ.E, caption = "SIGMA.SQ.E", format = "markdown")
 ```
 
 ### Trace plot for PPI to inspect convergence

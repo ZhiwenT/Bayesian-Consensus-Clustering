@@ -9,6 +9,8 @@
             parameters](#summary-statistics-for-all-parameters)
         -   [Trace plot for PPI to inspect
             convergence](#trace-plot-for-ppi-to-inspect-convergence)
+        -   [Trace plot for ALPHA to inspect
+            convergence](#trace-plot-for-alpha-to-inspect-convergence)
 
 # Bayesian-Consensus-Clustering
 
@@ -196,8 +198,9 @@ NULL
 
 ``` r
 library(knitr)
+library(kableExtra)
 fit.BCC <- readRDS(file = "graphic output/BCC.rds")
-knitr::kable(fit.BCC$summary.stat$PPI, caption = "PPI")
+knitr::kable(fit.BCC$summary.stat$PPI, caption = "PPI", format = "markdown")
 ```
 
 |             |           |            |
@@ -211,7 +214,7 @@ knitr::kable(fit.BCC$summary.stat$PPI, caption = "PPI")
 PPI
 
 ``` r
-knitr::kable(fit.BCC$summary.stat$ALPHA, caption = "ALPHA")
+knitr::kable(fit.BCC$summary.stat$ALPHA, caption = "ALPHA", format = "markdown")
 ```
 
 |             |           |            |            |
@@ -225,8 +228,13 @@ knitr::kable(fit.BCC$summary.stat$ALPHA, caption = "ALPHA")
 ALPHA
 
 ``` r
-knitr::kable(fit.BCC$summary.stat$GA, caption = "GA")
+GA <- knitr::kable(fit.BCC$summary.stat$GA, caption = "GA", format = "markdown") #fixed effect coefficients
+add_header_above(GA, c("first marker (lbili)" = 1, "second marker (lsgot)" = 1, "third marker (spider)" = 1), "latex")
 ```
+
+    ## Warning in add_header_above(GA, c(`first marker (lbili)` = 1, `second marker
+    ## (lsgot)` = 1, : Please specify format in kable. kableExtra can customize either
+    ## HTML or LaTeX outputs. See https://haozhu233.github.io/kableExtra/ for details.
 
 <table class="kable_wrapper">
 <caption>
@@ -272,7 +280,7 @@ GA
 </table>
 
 ``` r
-knitr::kable(fit.BCC$summary.stat$SIGMA.SQ.U, caption = "SIGMA.SQ.U")
+knitr::kable(fit.BCC$summary.stat$SIGMA.SQ.U, caption = "SIGMA.SQ.U", format = "markdown")
 ```
 
 <table class="kable_wrapper">
@@ -319,7 +327,7 @@ SIGMA.SQ.U
 </table>
 
 ``` r
-knitr::kable(fit.BCC$summary.stat$SIGMA.SQ.E, caption = "SIGMA.SQ.E")
+knitr::kable(fit.BCC$summary.stat$SIGMA.SQ.E, caption = "SIGMA.SQ.E", format = "markdown")
 ```
 
 <table class="kable_wrapper">
@@ -362,3 +370,20 @@ SIGMA.SQ.E
 ### Trace plot for PPI to inspect convergence
 
 ![](README_files/figure-markdown_github/unnamed-chunk-3-1.png)
+
+### Trace plot for ALPHA to inspect convergence
+
+``` r
+par(mfrow=c(1,3))
+plot(1:num.sample,fit.BCC$ALPHA[,1],type="l",col="blue" ,
+     xlab="MCMC iterations",ylab=expression(alpha[1]),main= expression(paste("Trace of ",alpha[1],sep="")),
+     cex.lab=1.6,cex.axis=1.6,cex.main=2)
+plot(1:num.sample,fit.BCC$ALPHA[,2],type="l",col="blue" ,
+     xlab="MCMC iterations",ylab=expression(alpha[2]),main= expression(paste("Trace of ",alpha[2],sep="")),
+     cex.lab=1.6,cex.axis=1.6,cex.main=2)
+plot(1:num.sample,fit.BCC$ALPHA[,3],type="l",col="blue" ,
+     xlab="MCMC iterations",ylab=expression(alpha[2]),main= expression(paste("Trace of ",alpha[3],sep="")),
+     cex.lab=1.6,cex.axis=1.6,cex.main=2)
+```
+
+![](README_files/figure-markdown_github/unnamed-chunk-4-1.png)
