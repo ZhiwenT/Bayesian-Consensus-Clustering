@@ -2,6 +2,7 @@
 title: "README"
 output:
   md_document:
+    toc: true
     variant: markdown_github
 ---
 
@@ -10,6 +11,12 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # Bayesian-Consensus-Clustering
+
+## Setup
+
+There are two main folders The summary folder contains code that gives model summary only. The graphic output folder visualizes the results. To run the code, first navigate to either `summary` or `graphich output` folder and set current folder as working directory.
+
+## Result from summary folder
 
 Results from exmaple
 ```{r, eval=F}
@@ -174,3 +181,78 @@ NULL
 > fit.BCC$alpha.adjust
 [1] 0.4571463
 ```
+
+## Results from graphic output folder
+
+### Trajectories for each marker
+
+```{r, echo=F, warning=F, message=F}
+library(mixAK)
+library(cowplot)
+data(PBCseq)
+# patients known to be alive  and without liver transplantation at 910 days of follow-up
+idx <- unique(PBCseq[PBCseq$alive>910,]$id)
+dnew910 <- PBCseq[PBCseq$id %in% idx,]
+dnew910$time <-  dnew910$month
+dnew910$time <-  dnew910$month - mean(dnew910$month,na.rm=TRUE)
+dnew910$time2 <-  dnew910$time^2
+
+# use only data before 910 days (2.5 years)
+dnew910.before <- dnew910[dnew910$day<=910,]
+
+# create a new ID variable with values from 1 to N;
+subj <- unique(dnew910.before$id)
+N <- length(subj)
+id.new <- NULL
+for (i in 1:N) {id.new   <- c(id.new, 
+                              rep(i,length(dnew910.before[dnew910.before$id==subj[i],]$id)))}
+dnew910.before$id.new <- id.new
+
+library(ggplot2)
+gp1 <- ggplot(data = dnew910.before, aes(x =month, y =lbili))+
+  geom_point(size=2,alpha=0.5) +
+  geom_line(aes(x = month, y = lbili,group=id ),size=1.5,alpha=0.5)+ 
+  geom_smooth(method = "loess", size = 3,se = FALSE,span=2)+
+  theme_bw() + 
+  theme(legend.position =c(0.15,0.88),legend.title=element_blank(),
+        plot.title = element_text(size = 12, face = "bold"),
+        axis.text=element_text(size=16),
+        axis.title=element_text(size=16),
+        legend.text=element_text(size=10),
+        axis.text.x = element_text(angle = 0 ),
+        strip.text.x = element_text(size = 16, angle = 0),
+        strip.text.y = element_text(size = 16,face="bold")) +
+  xlab("months") + ylab("lbili")
+gp2 <- ggplot(data = dnew910.before, aes(x =month, y =lsgot))+
+  geom_point(size=2,alpha=0.5) +
+  geom_line(aes(x = month, y = lsgot,group=id ),size=1.5,alpha=0.5)+ 
+  geom_smooth(method = "loess", size = 3,se = FALSE,span=2)+
+  theme_bw() + 
+  theme(legend.position =c(0.15,0.88),legend.title=element_blank(),
+        plot.title = element_text(size = 12, face = "bold"),
+        axis.text=element_text(size=16),
+        axis.title=element_text(size=16),
+        legend.text=element_text(size=10),
+        axis.text.x = element_text(angle = 0 ),
+        strip.text.x = element_text(size = 16, angle = 0),
+        strip.text.y = element_text(size = 16,face="bold")) +
+  xlab("months") + ylab("lsgot")
+gp3 <- ggplot(data = dnew910.before, aes(x =month, y = spiders))+
+  geom_point(size=3,alpha=0.5) +
+  geom_line(aes(x = month, y = spiders,group=id ),size=1.5,alpha=0.5)+ 
+  geom_smooth(method = "loess", size = 3,se = FALSE,span=2)+
+  theme_bw() + 
+  theme(legend.position =c(0.15,0.88),legend.title=element_blank(),
+        plot.title = element_text(size = 12, face = "bold"),
+        axis.text=element_text(size=16),
+        axis.title=element_text(size=16),
+        legend.text=element_text(size=10),
+        axis.text.x = element_text(angle = 0 ),
+        strip.text.x = element_text(size = 16, angle = 0),
+        strip.text.y = element_text(size = 16,face="bold")) +
+  xlab("months") + ylab("spiders")
+
+
+plot_grid(gp1,gp2, gp3,labels=c("(A)", "(B)", "(C)"), nrow = 1,   align = "v" )
+```
+

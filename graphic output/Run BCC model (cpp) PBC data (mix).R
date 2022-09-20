@@ -6,9 +6,6 @@ library(Rcpp)
 library(RcppArmadillo)
 library(inline)
 
-# load BCC function
-setwd("C:/Users/Zihang Lu/My Drive/10. Queens University/06. Writing/R-step2")
-
 sourceCpp("BCC.cpp")
 source("BCC function (GLM)_edited.R")
 #install.packages(c("mixAK","MCMCpack","label.switching","nnet","mclust","truncdist","MCMCpack","lme4","Rmpfr","mvtnorm"), 

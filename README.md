@@ -1,4 +1,21 @@
+-   [Bayesian-Consensus-Clustering](#bayesian-consensus-clustering)
+    -   [Setup](#setup)
+    -   [Result from summary folder](#result-from-summary-folder)
+    -   [Results from graphic output
+        folder](#results-from-graphic-output-folder)
+        -   [Trajectories for each
+            marker](#trajectories-for-each-marker)
+
 # Bayesian-Consensus-Clustering
+
+## Setup
+
+There are two main folders The summary folder contains code that gives
+model summary only. The graphic output folder visualizes the results. To
+run the code, first navigate to either `summary` or `graphich output`
+folder and set current folder as working directory.
+
+## Result from summary folder
 
 Results from exmaple
 
@@ -164,3 +181,9 @@ NULL
 > fit.BCC$alpha.adjust
 [1] 0.4571463
 ```
+
+## Results from graphic output folder
+
+### Trajectories for each marker
+
+![](README_files/figure-markdown_github/unnamed-chunk-2-1.png)
