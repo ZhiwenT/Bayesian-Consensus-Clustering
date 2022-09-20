@@ -256,3 +256,47 @@ gp3 <- ggplot(data = dnew910.before, aes(x =month, y = spiders))+
 plot_grid(gp1,gp2, gp3,labels=c("(A)", "(B)", "(C)"), nrow = 1,   align = "v" )
 ```
 
+### Summary statistics for all parameters
+
+```{r knit}
+library(knitr)
+library(kableExtra)
+fit.BCC <- readRDS(file = "graphic output/BCC.rds")
+knitr::kable(fit.BCC$summary.stat$PPI, caption = "PPI")
+knitr::kable(fit.BCC$summary.stat$ALPHA, caption = "ALPHA")
+GA <- knitr::kable(fit.BCC$summary.stat$GA, caption = "GA") #fixed effect coefficients
+add_header_above(GA, c("first marker (lbili)" = 1, "second marker (lsgot)" = 1, "third marker (spider)" = 1))
+knitr::kable(fit.BCC$summary.stat$SIGMA.SQ.U, caption = "SIGMA.SQ.U")
+knitr::kable(fit.BCC$summary.stat$SIGMA.SQ.E, caption = "SIGMA.SQ.E")
+```
+
+### Trace plot for PPI to inspect convergence
+
+```{r, echo=F}
+num.sample <- (fit.BCC$max.iter -  fit.BCC$burn.in)/fit.BCC$thin # number of MCMC sample
+par(mfrow=c(1,2))
+plot(1:num.sample,fit.BCC$PPI[,1],type="l",col="blue" ,
+     xlab="MCMC iterations",ylab=expression(pi[1]),main= expression(paste("Trace of ",pi[1],sep="")),
+     cex.lab=1.6,cex.axis=1.6,cex.main=2)
+plot(1:num.sample,fit.BCC$PPI[,2],type="l",col="blue" ,
+     xlab="MCMC iterations",ylab=expression(pi[2]),main= expression(paste("Trace of ",pi[2],sep="")),
+     cex.lab=1.6,cex.axis=1.6,cex.main=2)
+```
+
+### Trace plot for ALPHA to inspect convergence
+
+```{r}
+par(mfrow=c(1,3))
+plot(1:num.sample,fit.BCC$ALPHA[,1],type="l",col="blue" ,
+     xlab="MCMC iterations",ylab=expression(alpha[1]),main= expression(paste("Trace of ",alpha[1],sep="")),
+     cex.lab=1.6,cex.axis=1.6,cex.main=2)
+plot(1:num.sample,fit.BCC$ALPHA[,2],type="l",col="blue" ,
+     xlab="MCMC iterations",ylab=expression(alpha[2]),main= expression(paste("Trace of ",alpha[2],sep="")),
+     cex.lab=1.6,cex.axis=1.6,cex.main=2)
+plot(1:num.sample,fit.BCC$ALPHA[,3],type="l",col="blue" ,
+     xlab="MCMC iterations",ylab=expression(alpha[2]),main= expression(paste("Trace of ",alpha[3],sep="")),
+     cex.lab=1.6,cex.axis=1.6,cex.main=2)
+```
+
+
+
